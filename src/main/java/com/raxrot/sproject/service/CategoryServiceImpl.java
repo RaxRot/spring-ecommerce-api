@@ -5,6 +5,10 @@ import com.raxrot.sproject.exception.APIException;
 import com.raxrot.sproject.model.Category;
 import com.raxrot.sproject.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -46,6 +50,22 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories found");
         }
 
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        for (Category category : allCategories) {
+            CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
+            categoryDTOList.add(categoryDTO);
+        }
+        return categoryDTOList;
+    }
+
+    @Override
+    public List<CategoryDTO> findAllCategoriesPageable(int page, int size,String sortBy,String sortDirection) {
+        Sort sort=sortDirection.equalsIgnoreCase("desc")?
+                Sort.by(sortBy).descending():
+                Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size,sort);
+        Page<Category> allCategories = categoryRepository.findAll(pageable);
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
         for (Category category : allCategories) {
             CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);

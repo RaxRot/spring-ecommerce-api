@@ -29,6 +29,16 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.findAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
+
+    @GetMapping("/public/categories/paged")
+    public ResponseEntity<List<CategoryDTO>> getAllCategoriesByPagination(@RequestParam(name = "page",defaultValue = "0")int page,
+                                                     @RequestParam(name = "size",defaultValue = "50") int size,
+                                                     @RequestParam(name = "sortBy",defaultValue = "categoryName")String categoryName,
+                                                     @RequestParam(name = "sortDirection",defaultValue = "asc")String sortDirection
+    ) {
+        List<CategoryDTO> pagedCategories = categoryService.findAllCategoriesPageable(page, size,categoryName,sortDirection);
+        return ResponseEntity.ok(pagedCategories);
+    }
     @GetMapping("public/categories/{categoryId}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable("categoryId") Long categoryId) {
         CategoryDTO category = categoryService.findCategoryById(categoryId);
