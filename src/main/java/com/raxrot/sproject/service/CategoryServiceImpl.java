@@ -1,5 +1,6 @@
 package com.raxrot.sproject.service;
 
+import com.raxrot.sproject.exception.APIException;
 import com.raxrot.sproject.model.Category;
 import com.raxrot.sproject.repository.CategoryRepository;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
+        if (categoryRepository.findByCategoryName(category.getCategoryName()) != null) {
+            throw new APIException("Category already exists");
+        }
+
         if (category.getCategoryName().isBlank()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category name cannot be blank");
         }else{

@@ -2,6 +2,7 @@ package com.raxrot.sproject.controller;
 
 import com.raxrot.sproject.model.Category;
 import com.raxrot.sproject.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CategoryController {
     }
 
     @PostMapping("/public/categories")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         Category createdCategory = categoryService.save(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
@@ -34,7 +35,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("categoryId") Long categoryId ,@RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@PathVariable("categoryId") Long categoryId ,@Valid @RequestBody Category category) {
         Category updatedCategory =categoryService.updateCategory(category,categoryId);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
