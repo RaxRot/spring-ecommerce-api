@@ -1,6 +1,6 @@
 package com.raxrot.sproject.controller;
 
-import com.raxrot.sproject.model.Category;
+import com.raxrot.sproject.dto.CategoryDTO;
 import com.raxrot.sproject.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,24 +19,24 @@ public class CategoryController {
     }
 
     @PostMapping("/public/categories")
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
-        Category createdCategory = categoryService.save(category);
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO category) {
+        CategoryDTO createdCategory = categoryService.save(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
     @GetMapping("/public/categories")
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.findAllCategories();
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+        List<CategoryDTO> categories = categoryService.findAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
     @GetMapping("public/categories/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable("categoryId") Long categoryId) {
-        Category category = categoryService.findCategoryById(categoryId);
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable("categoryId") Long categoryId) {
+        CategoryDTO category = categoryService.findCategoryById(categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("categoryId") Long categoryId ,@Valid @RequestBody Category category) {
-        Category updatedCategory =categoryService.updateCategory(category,categoryId);
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable("categoryId") Long categoryId ,@Valid @RequestBody CategoryDTO category) {
+        CategoryDTO updatedCategory =categoryService.updateCategory(category,categoryId);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
     @DeleteMapping("/admin/categories/{categoryId}")

@@ -1,13 +1,13 @@
 package com.raxrot.sproject.service;
 
-import com.raxrot.sproject.model.Category;
+import com.raxrot.sproject.dto.CategoryDTO;
 
 import java.util.List;
 
 public interface CategoryService {
-    Category save(Category category);
-    List<Category> findAllCategories();
-    Category findCategoryById(Long id);
-    Category updateCategory(Category category, Long id);
+    CategoryDTO save(CategoryDTO categoryDTO);
+    List<CategoryDTO> findAllCategories();
+    CategoryDTO findCategoryById(Long id);
+    CategoryDTO updateCategory(CategoryDTO categoryDTO, Long id);
     void deleteCategoryById(Long id);
 }
