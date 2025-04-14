@@ -28,16 +28,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO save(Product product, Long categoryId) {
+    public ProductDTO save(ProductDTO productDTO, Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+
+        Product product = modelMapper.map(productDTO, Product.class);
 
         product.setCategory(category);
+
         product.setImage("default.png");
-        double specialPrice=product.getPrice()-
-                ((product.getDiscount()*0.01)*product.getPrice());
+        double specialPrice = product.getPrice() - (product.getPrice() * product.getDiscount() * 0.01);
         product.setSpecialPrice(specialPrice);
+
         Product savedProduct = productRepository.save(product);
+
         return modelMapper.map(savedProduct, ProductDTO.class);
     }
     @Override
@@ -74,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO updateProduct(Long id, Product product) {
+    public ProductDTO updateProduct(Long id, ProductDTO product) {
         Product existing = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 

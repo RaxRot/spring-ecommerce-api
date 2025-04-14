@@ -1,15 +1,14 @@
 package com.raxrot.sproject.service;
 
 import com.raxrot.sproject.dto.ProductDTO;
-import com.raxrot.sproject.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductDTO save(Product product, Long categoryId);
+    ProductDTO save(ProductDTO product, Long categoryId);
     List<ProductDTO> getAllProducts();
     ProductDTO getProductById(Long id);
-    ProductDTO updateProduct(Long id, Product product); // <== тут
+    ProductDTO updateProduct(Long id, ProductDTO product); // <== тут
     void deleteProduct(Long id);
 
     List<ProductDTO>getProductsByCategoryId(Long categoryId);

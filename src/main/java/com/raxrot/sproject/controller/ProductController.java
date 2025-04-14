@@ -1,7 +1,6 @@
 package com.raxrot.sproject.controller;
 
 import com.raxrot.sproject.dto.ProductDTO;
-import com.raxrot.sproject.model.Product;
 import com.raxrot.sproject.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,8 @@ public class ProductController {
     }
 
     @PostMapping("/admin/categories/{categoryId}/product")
-    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody Product product, @PathVariable Long categoryId) {
-        ProductDTO saved = productService.save(product,categoryId);
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO, @PathVariable Long categoryId) {
+        ProductDTO saved = productService.save(productDTO,categoryId);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
     @GetMapping("/public/products")
@@ -46,8 +45,8 @@ public class ProductController {
 
     @PutMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long productId,
-                                                    @Valid @RequestBody Product product) {
-        return ResponseEntity.ok(productService.updateProduct(productId, product));
+                                                    @Valid @RequestBody ProductDTO productDTO) {
+        return ResponseEntity.ok(productService.updateProduct(productId, productDTO));
     }
 
     @DeleteMapping("/admin/products/{productId}")

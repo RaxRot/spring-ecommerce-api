@@ -17,6 +17,10 @@ public class ProductDTO {
 
     private String image;
 
+    @NotBlank(message = "Product description cannot be blank")
+    @Size(min = 5, message = "Product description should contain at least 5 characters")
+    private String description;
+
     @NotNull(message = "Quantity is required")
     @Min(value = 0, message = "Quantity must be 0 or more")
     private Integer quantity;
