@@ -18,4 +18,6 @@ public interface ProductService {
     List<ProductDTO> searchProductByKeyword(String keyword);
 
     ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
+
+    List<ProductDTO>findAllProductsPageable(int page, int size, String sortBy, String sortDirection);
 }

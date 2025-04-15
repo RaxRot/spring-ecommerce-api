@@ -58,6 +58,18 @@ public class ProductController {
         return ResponseEntity.ok(productService.searchProductByKeyword(keyword));
     }
 
+    @GetMapping("/public/products/paged")
+    public ResponseEntity<List<ProductDTO>> getAllProductsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "productName") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+
+        List<ProductDTO> products = productService.findAllProductsPageable(page, size, sortBy, sortDirection);
+        return ResponseEntity.ok(products);
+    }
+
+
     @Operation(summary = "Update product by ID")
     @PutMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long productId,
