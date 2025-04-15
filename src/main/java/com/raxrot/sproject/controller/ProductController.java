@@ -72,7 +72,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid file format or size")
     })
     @PutMapping("/products/{productId}/image")
-    public ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long productId,@RequestParam("image") MultipartFile image) throws IOException {
+    public ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long productId,
+                                                         @RequestParam("image") MultipartFile image) throws IOException {
         return ResponseEntity.ok(productService.updateProductImage(productId,image));
     }
 

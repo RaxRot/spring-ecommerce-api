@@ -6,6 +6,7 @@ import com.raxrot.sproject.model.Product;
 import com.raxrot.sproject.repository.CategoryRepository;
 import com.raxrot.sproject.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,9 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final FileService fileService;
     private final ModelMapper modelMapper;
+
+    @Value("${project.image}")
+    private String path;
 
     public ProductServiceImpl(ProductRepository productRepository,
                               CategoryRepository categoryRepository,
@@ -89,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         // Upload image to server
-        String path = "images/";
+        //String path = "images/";
         String fileName = fileService.uploadImage(path, image);
 
         // Set new file name
