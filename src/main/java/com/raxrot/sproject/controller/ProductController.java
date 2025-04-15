@@ -58,6 +58,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.searchProductByKeyword(keyword));
     }
 
+    @Operation(summary = "Get paged and sorted list of products")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved paged products")
+    })
     @GetMapping("/public/products/paged")
     public ResponseEntity<List<ProductDTO>> getAllProductsPaged(
             @RequestParam(defaultValue = "0") int page,
