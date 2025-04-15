@@ -1,7 +1,9 @@
 package com.raxrot.sproject.service;
 
 import com.raxrot.sproject.dto.ProductDTO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProductService {
@@ -14,4 +16,6 @@ public interface ProductService {
     List<ProductDTO>getProductsByCategoryId(Long categoryId);
 
     List<ProductDTO> searchProductByKeyword(String keyword);
+
+    ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
 }

@@ -8,9 +8,16 @@ import com.raxrot.sproject.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,6 +82,49 @@ public class ProductServiceImpl implements ProductService {
         return products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
+        // Get product from DB
+        Product productFromDb = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+
+        // Upload image to server
+        String path = "images/"; // <- make sure this folder exists or create it
+        String fileName = uploadImage(path, image);
+
+        // Set new file name
+        productFromDb.setImage(fileName);
+
+        // Save
+        Product updatedProduct = productRepository.save(productFromDb);
+
+        return modelMapper.map(updatedProduct, ProductDTO.class);
+    }
+
+    private String uploadImage(String path, MultipartFile file) throws IOException {
+        // Get original file name (like "cat.png")
+        String originalFilename = file.getOriginalFilename();
+
+        // Generate a unique name like "a38dd-filename.png"
+        String randomId = UUID.randomUUID().toString();
+        String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+        String fileName = randomId + extension;
+
+        // Build full path
+        String filePath = path + File.separator + fileName;
+
+        // Create directories if not exist
+        File folder = new File(path);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Save file
+        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+
+        return fileName;
     }
 
     @Override
