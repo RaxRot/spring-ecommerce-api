@@ -1,7 +1,12 @@
 package com.raxrot.sproject.controller;
 
 import com.raxrot.sproject.model.AppRole;
+import com.raxrot.sproject.model.Role;
 import com.raxrot.sproject.model.User;
+import com.raxrot.sproject.repository.RoleRepository;
+import com.raxrot.sproject.repository.UserRepository;
+import com.raxrot.sproject.security.MessageResponse;
+import com.raxrot.sproject.security.SignupRequest;
 import com.raxrot.sproject.security.jwt.JwtUtils;
 import com.raxrot.sproject.security.jwt.LoginRequest;
 import com.raxrot.sproject.security.jwt.UserInfoResponse;
@@ -15,12 +20,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -28,6 +38,15 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
