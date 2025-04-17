@@ -2,6 +2,7 @@ package com.raxrot.sproject.security.services;
 
 
 import com.raxrot.sproject.model.User;
+import com.raxrot.sproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
