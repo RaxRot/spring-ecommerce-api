@@ -1,4 +1,4 @@
-package com.raxrot.sproject.jwt;
+package com.raxrot.sproject.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

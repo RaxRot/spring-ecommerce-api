@@ -1,4 +1,4 @@
-package com.raxrot.sproject.jwt;
+package com.raxrot.sproject.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

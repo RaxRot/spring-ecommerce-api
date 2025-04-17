@@ -1,4 +1,4 @@
-package com.raxrot.sproject.jwt;
+package com.raxrot.sproject.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
